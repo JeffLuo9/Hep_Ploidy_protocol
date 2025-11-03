@@ -5,7 +5,10 @@ The method employs deep learning techniques: Cellpose & StarDist to accurately i
 It acquires detailed information on the morphological characteristics and spatial localization of nuclei and cells, which serves as the core process for hepatocyte ploidy identification.
 Leveraging Stereo-cell technology, this workflow significantly enhances both the quantity of hepatocytes for which ploidy information can be obtained and the number of genes detected in the new workflow.
 
-<img width="1315" height="220" alt="ploidy_workflow" src="https://github.com/user-attachments/assets/2078807e-60f5-4ff7-8be8-fbfe0a9ed9a9" />
+
+<img width="1391" height="385" alt="new_fig1" src="https://github.com/user-attachments/assets/1715f8f5-ea70-429c-8b39-407827760ce4" />
+
+
 
 
 
