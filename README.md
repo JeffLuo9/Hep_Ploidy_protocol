@@ -17,6 +17,7 @@ Leveraging Stereo-cell technology, this workflow significantly enhances both the
 
 
 # Tutorial
+The example data is accessible at this location: "Hep_Ploidy_protocol/Tutorial/Demon_data.rar"
 #  Step1: GEM Generates UMI images
 To map the fluorescence staining signals captured by microscopy to the actual gene expression profiles, we first generate spatial expression heatmaps for the genes of interest, followed by registering the DAPI and bright-field images to the spatial pattern defined by these UMI image.
 ```bash
@@ -56,7 +57,11 @@ This ensures that spatial gene expression data (UMI) remains unmodified, preserv
 #  Step3: Cell and nuclear segmentation
 Perform nuclear segmentation on the DAPI image (registered with the UMI image) and cell segmenttation on brightfield image. For the brightfield image, use Cellpose (https://github.com/MouseLand/cellpose) with the cyto3 model.    For the DAPI image, use StarDist (https://github.com/stardist/stardist) with the 2D_versatile_fluo model to generate DAPI masks in StarDist_dapi.py.
 ```bash
-#Nuclear segmentation on DAPI-stained images
+#Nuclear segmentation on Demon DAPI image
+python ../02.Cell Segmentation/StarDist_small.py -i ../DAPI_image.tif -o ../dapi_mask.label.csv
+#The example data is small, so a different StarDist function was used;for details, please refer to the official StarDist tutorial.
+
+#Nuclear segmentation on normal DAPI images
 python ../02.Cell Segmentation/StarDist_dapi.py -i ../DAPI_image.tif -o ../dapi_mask.label.csv
 ```
 For cell segmentation using Cellpose, we highly recommend its graphical user interface (GUI). For the code-based workflow, please refer to Cellpose's official documentation (https://cellpose.readthedocs.io/en/latest/). Therefore, we only demonstrate the detailed steps of the GUI here.
