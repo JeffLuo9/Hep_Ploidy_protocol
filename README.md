@@ -16,7 +16,40 @@ Leveraging Stereo-cell technology, this workflow significantly enhances both the
 
 
 
+# Tutorial
+#  Step1: Staining image registration and quantification 
+```
+Since the slide is not moved between DAPI and brightfield imaging using the microscope,
+ the DAPI and brightfield microscopy images are already registered.。
+Therefore, FIJI ImageJ (https://imagej.net/software/fiji/) is only required to register
+the DAPI images with the UMI image.
 
-cellpose:https://www.cellpose.org/
+1. Preprocessing in ImageJ:
+Convert both DAPI and brightfield images from RGB to 8-bit in ImageJ to reduce memory consumption.
+Adjust the image brightness to make the DAPI and UMI image basically consistent.
 
-StarDist:https://github.com/stardist/stardist
+2. TrackEM2 Project Setup:
+Create a TrackEM2 project in ImageJ, then import the folder containing brightfield image,
+ DAPI image, and UMI image.
+Switch the active image to the UMI image. Unlink the UMI image from other images to ensure
+ that adjustments to the DAPI image do not affect the UMI image. Maintain the link between
+ the DAPI and brightfield images.
+Select the DAPI layer as the active layer. Configure the UMI image as the red channel
+and DAPI as the green channel in the layer settings.
+
+3. Registration and Validation:
+  Register the DAPI image using the Transform tool, After registration,
+validate the alignment by zooming into multiple fields of view to ensure
+that the majority of the DAPI signal (green channel) overlaps with the UMI regions(red channel).
+
+4. Export and save both the DAPI and brightfield images in TIFF format.
+```
+CAUTION!  Do not alter the UMI image at any stage of registration;only the DAPI image is subject to transformation.
+This ensures that spatial gene expression data (UMI) remains unmodified, preserving the integrity of expression localization during alignment with nuclear features (DAPI)
+#  Step2: GEM Generates UMI images
+
+#  Step3: Cell and nuclear segmentation
+Perform cell segmentation on the DAPI image (registered with the UMI image) and brightfield image. For the brightfield image, use Cellpose (https://github.com/MouseLand/cellpose) with the cyto3 model.For the DAPI image, use StarDist (https://github.com/stardist/stardist) with the 2D_versatile_fluo model to generate DAPI masks in StarDist_dapi.py.
+
+
+
