@@ -17,7 +17,13 @@ Leveraging Stereo-cell technology, this workflow significantly enhances both the
 
 
 # Tutorial
-#  Step1: Staining image registration and quantification 
+#  Step1: GEM Generates UMI images
+To map the fluorescence staining signals captured by microscopy to the actual gene expression profiles, we first generate spatial expression heatmaps for the genes of interest, followed by registering the DAPI and bright-field images to the spatial pattern defined by these UMI image.
+```bash
+python ../01.GEM Generate UMI image/gem2mask.py -f nCount -g ../Y00723M1_con.gem.gz  -b 1 -n 0 10 -C variable x y value exon -o Y00723M1_con_umi
+```
+
+#  Step2: Staining image registration and quantification 
 ```
 Since the slide is not moved between DAPI and brightfield imaging using the microscope,
  the DAPI and brightfield microscopy images are already registered.。
@@ -46,10 +52,33 @@ that the majority of the DAPI signal (green channel) overlaps with the UMI regio
 ```
 CAUTION!  Do not alter the UMI image at any stage of registration;only the DAPI image is subject to transformation.
 This ensures that spatial gene expression data (UMI) remains unmodified, preserving the integrity of expression localization during alignment with nuclear features (DAPI)
-#  Step2: GEM Generates UMI images
 
 #  Step3: Cell and nuclear segmentation
-Perform cell segmentation on the DAPI image (registered with the UMI image) and brightfield image. For the brightfield image, use Cellpose (https://github.com/MouseLand/cellpose) with the cyto3 model.For the DAPI image, use StarDist (https://github.com/stardist/stardist) with the 2D_versatile_fluo model to generate DAPI masks in StarDist_dapi.py.
+Perform nuclear segmentation on the DAPI image (registered with the UMI image) and cell segmenttation on brightfield image. For the brightfield image, use Cellpose (https://github.com/MouseLand/cellpose) with the cyto3 model.    For the DAPI image, use StarDist (https://github.com/stardist/stardist) with the 2D_versatile_fluo model to generate DAPI masks in StarDist_dapi.py.
+```bash
+#Nuclear segmentation on DAPI-stained images
+python ../02.Cell Segmentation/StarDist_dapi.py -i ../DAPI_image.tif -o ../dapi_mask.label.csv
+```
+For cell segmentation using Cellpose, we highly recommend its graphical user interface (GUI). For the code-based workflow, please refer to Cellpose's official documentation (https://cellpose.readthedocs.io/en/latest/). Therefore, we only demonstrate the detailed steps of the GUI here.
+
+<img width="338" height="285" alt="cellpose_done" src="https://github.com/user-attachments/assets/d1874063-1bea-4dae-a084-23867e2d82c3" />
+
+1. load bright image
+<img width="365" height="240" alt="cellpose_11" src="https://github.com/user-attachments/assets/57ba3ab8-1b18-4899-b28a-52ae7ea14cfa" />
+
+2. cell segmentation
+<img width="290" height="191" alt="cellpose_s2" src="https://github.com/user-attachments/assets/0450f2f1-f566-4171-b327-d044319cdcec" />
+
+3. save result image
+<img width="375" height="235" alt="cellpose_s3" src="https://github.com/user-attachments/assets/6c7615bd-97b1-4b55-873b-2326d95d22f2" />
+
+# Step4: Hepatocytes polyploidy identification
+
+
+
+
+
+
 
 
 
