@@ -91,7 +91,9 @@ In Python, we integrate the cell segmentation results from Cellpose and nuclear 
 ```python
 import sys
 sys.path.append("../03.Hepatocyte Ploidy Identification/cell_nuclear_stats.py")
-from cell_nuclear_stats import calculate_cell_nuclear_stats
+from cell_nuclear_stats import calculate_dapi_bright_analysis
+
+
     bright_path = "../cellpose_masks.tif"  # Cellpose Cell Segmentation Result Images
     dapi_path = "../dapi_mask.label.csv"   # StarDist Nuclear Segmentation Result File
     dapi_raw_path = "../DAPI_image.tif"    # Registered Original DAPI Image
@@ -99,13 +101,12 @@ from cell_nuclear_stats import calculate_cell_nuclear_stats
     output_file = "../results/" 
     sample_name = "Y00723M1" 
 
-    dapi_stats, cell_nuclear_stats = calculate_cell_nuclear_stats(
-        bright_path=bright_path,
-        dapi_path=dapi_path,
-        dapi_raw_path=dapi_raw_path,
-        output_file=output_file,
-        sample_name=sample_name,
-        cover_thre=cover_thre
+calculate_dapi_bright_analysis(dapi_raw_path = dapi_raw_path,
+                                   bright_path = bright_path,
+                                   dapi_path = dapi_path,
+                                   sample_name = sample_name,
+                                   output_file = output_file
+                                  )
     )
 ```
 After running calculate_cell_nuclear_stats, a file with the suffix "dtb.csv" will be generated. This file records the features of each nucleus row by row. Next, it is necessary to identify which nuclei are diploid and which are tetraploid.
