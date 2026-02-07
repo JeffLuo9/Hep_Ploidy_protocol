@@ -9,7 +9,8 @@ Leveraging Stereo-cell technology, this workflow significantly enhances both the
 <img width="1391" height="385" alt="new_fig1" src="https://github.com/user-attachments/assets/1715f8f5-ea70-429c-8b39-407827760ce4" />
 
 
-<img width="1354" height="686" alt="workflow" src="https://github.com/user-attachments/assets/e351bd09-2214-4ee1-a93b-ca73370f0d5f" />
+<img width="1194" height="616" alt="fig2_cut" src="https://github.com/user-attachments/assets/03830306-d12c-42c0-bf25-c213b490c998" />
+
 
 
 <img width="1345" height="485" alt="fig2" src="https://github.com/user-attachments/assets/b0d844a2-9db1-4def-8132-75c3d831693f" />
@@ -119,12 +120,12 @@ rna_m1<-gem2rds(df_gem)  #Use this function to perform the format conversion fro
 
 #Add ploidy information to the Seurat object to initiate the analysis.
 df_m1_ploidy<-read.csv("../Y00723M1_dtb.csv")
-k_m1<-kmeans(df_m1_ploidy$area)
-head(k_m1)  #Examine the clustering results based on nuclear area, where we define Cluster 1 as the group with larger mean nuclear areas.
+k_m1<-kmeans(df_m1_ploidy$area,centers = 3)
+head(k_m1)  #Examine the clustering results based on nuclear area, where we define Cluster 3 as the group with largest mean nuclear areas,Clustre 1 as smallest nuclear areas.
 df_m1_ploidy$k_cluster<-k_m1$cluster
-cut_num<-min(df_mi_ploidy$area[df_m1_ploidy$k_cluster == 1]) #Determine the segmentation threshold
-
-df_m1_meta<-addPloidy(df_m1_ploidy,cut_num)
+cut_num1<-max(df_mi_ploidy$area[df_m1_ploidy$k_cluster == 1]) #Determine the segmentation threshold
+cut_num2<-min(df_mi_ploidy$area[df_m1_ploidy$k_cluster == 3])
+df_m1_meta<-addPloidy(df_m1_ploidy,cut_num1,cut_num2)
 rna_m1<-AddMetaData(rna_m1,df_m1_meta)
 
 saveRDS(rna_m1,"../Y00723M1_seurat.rds")
